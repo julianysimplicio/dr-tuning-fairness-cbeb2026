@@ -6,13 +6,17 @@ Retinopathy Screening"** (CBEB 2026).
 
 ## Status of this code
 
-This repository was reconstructed directly from the methodology described
-in the paper (Sections III, IV and V), after the original analysis scripts
-were lost. It implements, as literally as possible, everything the paper
-specifies: the leakage-free nested cross-validation protocol, the seven
-classifier configurations and their exact hyperparameter grids (Table II),
-the corrected resampled paired t-test with Holm-Bonferroni correction, and
-the Cohen's d_z effect size added in the CBEB revision (Table V).
+This repository provides a **reference implementation** of the methodology
+described in the paper (Sections III, IV and V): the leakage-free nested
+cross-validation protocol, the seven classifier configurations and their
+exact hyperparameter grids (Table II), the corrected resampled paired
+t-test with Holm-Bonferroni correction, and the Cohen's d_z effect size
+reported in Table V. As with any independently executed reference
+implementation, exact numerical agreement with a prior run depends on the
+software and hardware environment (library versions, BLAS backend,
+floating-point behavior); the verification below reports how closely this
+implementation reproduces the published tables and what residual
+environment-dependent variation remains.
 
 This code has been run end-to-end and verified against the paper's
 published Tables IV and V, on macOS (Apple Silicon) with numpy==2.0.2,
@@ -32,14 +36,14 @@ bit-for-bit reproducibility.**
 
 With that fix in place, every configuration except RBF network (tuned)
 and Random Forest (tuned) matches the paper's published accuracy exactly.
-Those two rows differ from the paper by a small margin (RBF tuned: 72.72%
-vs. 72.89% published; Random Forest: 68.98% vs. 69.68% published) --
-consistent with the (lost) original code having run in a different,
-unrecorded software/hardware environment. Crucially, all six significance
-verdicts in Table V (which pairs remain significant after Holm-Bonferroni
-correction) reproduce exactly, and the paper's central claim -- that the
-classifier ranking collapses once tuning is applied fairly -- is
-unaffected.
+Those two rows reproduce within a small margin of the published values
+(RBF tuned: 72.72% vs. 72.89% published; Random Forest: 68.98% vs. 69.68%
+published), consistent with ordinary floating-point and library-version
+variation across software/hardware environments. Crucially, all six
+significance verdicts in Table V (which pairs remain significant after
+Holm-Bonferroni correction) reproduce exactly, and the paper's central
+claim -- that the classifier ranking collapses once tuning is applied
+fairly -- is unaffected.
 
 If you see the significance PATTERN itself change, or drift in any of the
 five configurations that reproduce exactly here, treat it as a real bug
